@@ -1,12 +1,10 @@
-[![Tests Status](https://github.com/mreiche/python-streams/actions/workflows/tests.yml/badge.svg)](https://github.com/mreiche/python-streams/actions/workflows/tests.yml)
-[![Code Coverage Status](https://codecov.io/github/mreiche/python-streams/branch/main/graph/badge.svg)](https://app.codecov.io/github/mreiche/python-streams)
+[![Tests Status](https://github.com/mreiche/tinystream/actions/workflows/tests.yml/badge.svg)](https://github.com/mreiche/tinystream/actions/workflows/tests.yml)
+[![Code Coverage Status](https://codecov.io/github/mreiche/tinystream/branch/main/graph/badge.svg)](https://app.codecov.io/github/mreiche/tinystream)
 [![PyPI version](https://badge.fury.io/py/tinystream.svg)](https://badge.fury.io/py/tinystream)
 
-# tinystream / python-streams
+# tinystream
 
-This is a simple and lightweight Streams API inspired by Java Streams with support for type hinting.
-
-This package is released as `tinystream` at pypi.
+This is a tiny, lightweight and simple Streams API inspired by Java Streams with support for type hinting.
 
 ## Basic API
 
@@ -15,14 +13,17 @@ from tinystream import Stream
 
 stream = Stream([1, 2, 3, 4, 5])  # Stream.of_many(*), Stream.of_dict()
 
+for item in stream:
+    pass
+
 stream \
-    .map(lambda x: x + 1) \       # flatmap(), peek(), map_key(), map_kwargs(), map_keys()
-    .filter(lambda x: x > 2) \    # filter_key(), filter_type()
-    .sorted(reverse=True) \       # sort()
+    .map(lambda x: x + 1) \     # flatmap(), peek(), map_key(), map_kwargs(), map_keys()
+    .filter(lambda x: x > 2) \  # filter_key(), filter_type()
+    .sorted(reverse=True) \     # sort()
     .reverse() \
     .limit(2) \
-    .concat([4]) \
-    .sum()                        # reduce(), max(), min(), collect(), count(), find()
+    .concat([4, 6]) \
+    .sum()                      # reduce(), max(), min(), collect(), count(), find()
 ```
 
 ## Aggregators
@@ -151,7 +152,7 @@ if char == "a":
 
 ### Opt usage
 
-Get next value as `Opt`:
+Get the next value as `Opt`:
 
 ```python
 assert Stream((1, 2, 3, 4, 5)).next().present
@@ -191,11 +192,11 @@ data = {
    ]
 }
 
-# With tinystream Stream
+# With tinystream
 for range_data in Opt(data).map_key("ranges").stream().map_kwargs(timedelta):
    pass
 
-# Vanilly Python
+# Vanilla Python
 if "ranges" in data:
    range_data: timedelta
    for range_data in map(lambda x: timedelta(**x), data["ranges"]):
@@ -204,7 +205,7 @@ if "ranges" in data:
 
 ### Write better code with `Opt`
 ```python
-# tinystream Opt
+# With tinystream
 var = Opt(my_dict).kmap("key").filter(not_empty).get("default")
 
 # Vanilla Python
@@ -214,7 +215,7 @@ var = my_dict["key"] if "key" in my_dict and not_empty(my_dict["key"]) else "def
 
 ## Comparison with other libraries
 
-There are a couple of other implementation to fulfill similar requirements.
+There are a couple of other implementations to fulfill similar requirements.
 
 - https://github.com/vxgmichel/aiostream
 - https://github.com/python-streamz/streamz

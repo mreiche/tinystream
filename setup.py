@@ -14,7 +14,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     version=VERSION,
-    url="https://github.com/mreiche/python-streams",
+    url="https://github.com/mreiche/tinystream",
     author="Mike Reiche",
     py_modules=['tinystream'],
     install_requires=[],
